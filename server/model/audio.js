@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import { audioSchema } from "../db/schemas.js";
-
+import { v4 as uuidv4 } from 'uuid';
 const AudioModel = mongoose.model("Audio", audioSchema, "audio_files");
 
 const createAudio = async ({title, artist, url}) => {
     const audio = {
+        id: uuidv4(),
         title,
         artist,
         audioUrl: url,

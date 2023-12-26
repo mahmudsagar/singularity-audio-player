@@ -17,13 +17,14 @@ const responseFormatter = (status, message, data, error) => {
 
 audioController.create = async (req, res) => {
     const errors = validationResult(req);
+    console.log("req.body", req.body);
     if (!errors.isEmpty()) {
         return res.status(400).json(responseFormatter(400, 'Validation errors', null, errors.array()));
     }
 
     try {
-        const { title, artist, url } = req.body;
-        const audio = await createAudio({ title, artist, url });
+        const { title, artist, audioUrl } = req.body;
+        const audio = await createAudio({ title, artist, url: audioUrl });
         return res.status(201).json(responseFormatter(201, 'Audio created successfully', audio, null));
     } catch (error) {
         return res.status(500).json(responseFormatter(500, 'An error occurred', null, error.message));
