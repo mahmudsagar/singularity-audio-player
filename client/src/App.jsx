@@ -36,7 +36,7 @@ function App() {
         <div className='search-container'>
           <Row align={"middle"} gutter={4}>
             <Col span={21}>
-              <SearchAudio handleSearch={handleSearch} />
+              <SearchAudio handleSearch={handleSearch} audioResults={result} />
             </Col>
             <Col span={3}>
               <CreateAudio />

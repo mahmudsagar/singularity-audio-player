@@ -3,9 +3,9 @@ import { AutoComplete, Input, message } from 'antd';
 import useSearchOption from '../../hooks/searchOptions';
 import { ClearOutlined, SmileOutlined } from '@ant-design/icons';
 
-const SearchAudio = ({ handleSearch }) => {
+const SearchAudio = ({ handleSearch, audioResults }) => {
     const [searchOptions, setSearchOptions] = useState([]);
-    const { options, isLoading, error } = useSearchOption(`${import.meta.env.VITE_SERVER_URL}/api/audio`);
+    const { options, isLoading, error } = useSearchOption(audioResults);
     useEffect(() => {
         setSearchOptions(options);
     }, [options]);
