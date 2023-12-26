@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Button, Card, Col, Divider, Row, Slider } from 'antd';
+import {Button, Card, Col, Row, Slider } from 'antd';
 import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
 import './CardComponent.scss'
 function CardComponent({ data }) {
@@ -12,8 +12,8 @@ function CardComponent({ data }) {
     useEffect(() => {
         const audio = new Audio(data.audioUrl);
         setAudio(audio);
-        audio.addEventListener('timeupdate', () => {
 
+        audio.addEventListener('timeupdate', () => {
             const minutes = Math.floor(audio.currentTime / 60);
             const seconds = Math.floor(audio.currentTime % 60);
             setCurrentTime(`${minutes}:${seconds < 10 ? '0' : ''}${seconds}`);
@@ -26,9 +26,15 @@ function CardComponent({ data }) {
             setDuration(`${minutes}:${seconds < 10 ? '0' : ''}${seconds}`);
         });
 
+        audio.addEventListener('ended', () => {
+            setIsPlaying(false);
+            setProgress(0);
+        });
+
         return () => {
-            audio.removeEventListener('timeupdate', () => { });
-            audio.removeEventListener('loadedmetadata', () => { });
+            audio.removeEventListener('timeupdate', () => {});
+            audio.removeEventListener('loadedmetadata', () => {});
+            audio.removeEventListener('ended', () => {});
         };
     }, [data]);
 
@@ -58,7 +64,7 @@ function CardComponent({ data }) {
             cover={<img alt="example" src={`https://picsum.photos/200?random=${data.id}`} />}
         >
             <Card.Meta title={data.title} description={data.artist} />
-            <Row>
+            <Row className='controls'>
                 <Col span={4}>{currentTime}</Col>
                 <Col span={16}>
                     <Slider

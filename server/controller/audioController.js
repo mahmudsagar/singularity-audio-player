@@ -30,18 +30,12 @@ audioController.create = async (req, res) => {
     }
 }
 
-audioController.getAudioByValue = async (req, res) => {
-    try {
-        const { value } = req.params;
-        const audio = await getAudioByValue(value);
-        return res.status(200).json(responseFormatter(200, 'Audio retrieved successfully', audio, null));
-    } catch (error) {
-        return res.status(500).json(responseFormatter(500, 'An error occurred', null, error.message));
-    }
-}
-
 audioController.getAll = async (req, res) => {
     try {
+        if (req.query.search) {
+            const audio = await getAudioByValue(req.query.search);
+            return res.status(200).json(responseFormatter(200, 'Audio retrieved successfully', audio, null));
+        }
         const audio = await getAllAudio();
         return res.status(200).json(responseFormatter(200, 'All audio retrieved successfully', audio, null));
     } catch (error) {

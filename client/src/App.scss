@@ -1,3 +1,28 @@
 .grid{
     display: grid;
 }
+
+.wrapper{
+    width: 80%;
+    margin: 0 auto;
+}
+.search-container{
+    margin: 2rem 0;
+    width: 100%;
+    .search-audio{
+        width: 100%;
+        height: 3rem;
+        padding: 1rem 0rem;
+        font-size: 1.2rem;
+        .ant-select{
+            width: 100%;
+        }
+    }
+}
+.search-dropdown{
+    width: 80% !important;
+}
+.ant-select-clear{
+    inset-inline-end: 60px !important;
+    margin-top: -4px !important;
+}

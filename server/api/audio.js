@@ -10,10 +10,6 @@ api.post('/audio', [
     check('url').notEmpty().withMessage('URL is required'),
 ], audioController.create);
 
-api.get('/audio/search/:value', [
-    check('value').notEmpty().withMessage('Value is required'),
-], audioController.getAudioByValue);
-
 api.get('/audio', audioController.getAll);
 api.get('/audio/:id', audioController.getById);
 api.put('/audio/:id', audioController.update);

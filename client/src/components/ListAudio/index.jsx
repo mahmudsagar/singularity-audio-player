@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'antd';
 import CardComponent from '../CardComponent';
-import useApi from '../../hooks/Api';
 const ListAudio = ({result, isLoading, error}) => {
     const [data, setData] = useState([]);
 
@@ -19,11 +18,11 @@ const ListAudio = ({result, isLoading, error}) => {
     }
     return (
         <>
-            <Row gutter={[16, 24]}>
-                {data && data?.data?.map((item,index) => (
+            <Row gutter={[16, 24]} style={{justifyContent: "space-around"}}>
+                {data && data?.map((item,index) => (
 
-                    <Col key={index} className="gutter-row" span={4}>
-                        <CardComponent id={index} data={item} />
+                    <Col key={index} className="gutter-row" span={7}>
+                        <CardComponent data={item} />
                     </Col>
                 ))
                 }
