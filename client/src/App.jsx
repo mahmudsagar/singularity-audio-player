@@ -1,33 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react'
+import ListAudio from './components/ListAudio'
+import './App.scss'
+import useApi from './hooks/Api';
+import SearchAudio from './components/SearchAudio';
+import { Row, Skeleton } from 'antd';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState([]);
+  let { result, isLoading, error } = useApi('http://localhost:8135/api/audio');
+  const [loading, setLoading] = useState(isLoading);
+  const handleSearch = async (value) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`http://localhost:8135/api/audio?search=${value}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      setData(result?.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    setLoading(false);
+    // setData(searchResult)
+  }
+  useEffect(() => {
+    setData(result?.data);
+    setLoading(isLoading);
+  }, [result]);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="wrapper">
+        <div className='search-container'>
+          <SearchAudio handleSearch={handleSearch} />
+        </div>
+        <div>
+          {loading ?
+            <Skeleton active />
+            : <ListAudio result={data} isLoading={isLoading} error={error} />
+
+          }
+
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }

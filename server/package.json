@@ -3,13 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "scripts": {
+    "setup": "cd ../client && npm install; cd ../server && npm install; npm run dev",
+    "client": "cd ../client && npm start",
+    "server": "PORT=8135 nodemon server.js",
+    "dev": "node bin/start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "mahmudul hasan sagar",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.3"
   }
 }
