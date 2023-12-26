@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { AutoComplete, Input } from 'antd';
+import { AutoComplete, Input, message } from 'antd';
 import useSearchOption from '../../hooks/searchOptions';
 import { ClearOutlined, SmileOutlined } from '@ant-design/icons';
 
 const SearchAudio = ({ handleSearch }) => {
     const [searchOptions, setSearchOptions] = useState([]);
-    const { options, isLoading, error } = useSearchOption('http://localhost:8135/api/audio');
+    const { options, isLoading, error } = useSearchOption(`${import.meta.env.VITE_SERVER_URL}/api/audio`);
     useEffect(() => {
         setSearchOptions(options);
     }, [options]);
@@ -16,11 +16,17 @@ const SearchAudio = ({ handleSearch }) => {
                 popupClassName="search-dropdown"
                 popupMatchSelectWidth={500}
                 options={searchOptions}
-                onSelect={(value) => handleSearch(value)}
+                onSelect={(value) => {
+                    if (!value || value.trim() === '') {
+                        message.error('Please select a valid option.');
+                        return;
+                    }
+                    handleSearch(value);
+                }}
                 onClear={() => handleSearch('')}
                 filterOption
             >
-                <Input.Search size="large" placeholder="input here" />
+                <Input.Search size="large" placeholder="Search audio with title or artist" />
             </AutoComplete>
         </div>
     );

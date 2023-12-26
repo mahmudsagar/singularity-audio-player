@@ -7,7 +7,7 @@ const api = express.Router();
 api.post('/audio', [
     check('title').notEmpty().withMessage('Title is required'),
     check('artist').notEmpty().withMessage('Artist is required'),
-    check('url').notEmpty().withMessage('URL is required'),
+    check('audioUrl').notEmpty().withMessage('URL is required'),
 ], audioController.create);
 
 api.get('/audio', audioController.getAll);
