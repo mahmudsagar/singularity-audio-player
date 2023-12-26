@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const useSearchOption = (url) => {
-    const [result, setResult] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+const useSearchOption = (results) => {
     const [options, setOptions] = useState([]);
     const renderTitle = (title) => (
         <span>
@@ -25,45 +22,32 @@ const useSearchOption = (url) => {
     });
 
     const fetchData = async () => {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('An error occurred while fetching the data.');
-            }
-            const data = await response.json();
-            setResult(data);
-            setIsLoading(false);
-
-            let titleOptions = new Set(data?.data?.map(item => (
-                item.title
-            )));
-            let artistOption = new Set(data?.data?.map(item => (
-                item.artist
-            )))
-            titleOptions = [...titleOptions].map(item => renderItem(item));
-            artistOption = [...artistOption].map(item => renderItem(item));
-            let optionResult = [
-                {
-                    label: renderTitle('Titles'),
-                    options: titleOptions,
-                },
-                {
-                    label: renderTitle('Artists'),
-                    options: artistOption,
-                },
-            ];
-            setOptions(optionResult);
-        } catch (error) {
-            setError(error.message);
-            setIsLoading(false);
-        }
+        let titleOptions = new Set(results?.data?.map(item => (
+            item.title
+        )));
+        let artistOption = new Set(results?.data?.map(item => (
+            item.artist
+        )))
+        titleOptions = [...titleOptions].map(item => renderItem(item));
+        artistOption = [...artistOption].map(item => renderItem(item));
+        let optionResult = [
+            {
+                label: renderTitle('Titles'),
+                options: titleOptions,
+            },
+            {
+                label: renderTitle('Artists'),
+                options: artistOption,
+            },
+        ];
+        setOptions(optionResult);
     };
 
     useEffect(() => {
         fetchData();
-    }, [url]);
+    }, [results]);
 
-    return { options, isLoading, error };
+    return { options };
 }
 
 export default useSearchOption;
