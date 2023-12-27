@@ -58,6 +58,11 @@ This will launch the server at `http://localhost:8135`.
     npm run client
   ```
 This will launch the client at `http://localhost:5173`.
+9. To seed go to server on terminal window and run following command
+   ```bash
+      cd server
+      node seeds/audioSeeds.js
+   ```
 
 ## Usage
 
